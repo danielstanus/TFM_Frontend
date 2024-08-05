@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { Question, User, LoginCredentials, RegisterCredentials, MessageDB, ChatDB } from '../types';
 
-const API_URL = 'http://localhost:5000/api';
+// const API_URL_LOCALHOST = 'http://localhost:5000/api';
+const API_URL = 'https://tfm-backend-topaz.vercel.app/api';
+
+
 
 // Creamos una instancia de axios con la configuración base
 const api = axios.create({
@@ -152,8 +155,7 @@ export const getChats = async (userId: string, token: string): Promise<ChatDB[]>
   try {
     const response = await api.get<ChatDB[]>(`/chats/user/${userId}`);
     
-    console.log("response.data getChats", response.data);
-    
+
     // Transformar los datos
     const transformedData: ChatDB[] = response.data.map((item: any) => ({
       id: item.id,
@@ -211,11 +213,8 @@ export const getMessages = async (userId: string, chatId: string,  token: string
         organizedMessages.push(...chatMessagesMap[chatId]);
       }
     }
-
-    console.log("organizedMessages", organizedMessages);
-
+  
     return organizedMessages;
-
 
   } catch (error) {
     return handleApiError(error);
