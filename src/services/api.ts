@@ -68,7 +68,7 @@ export const generateQuestions = async (text: string, numQuestions: number, chat
     // };
     
 
-    return [exampleQuestion];
+    // return [exampleQuestion];
     
   } catch (error) {
 
