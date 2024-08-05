@@ -52,23 +52,23 @@ export const register = async (credentials: RegisterCredentials): Promise<User> 
 export const generateQuestions = async (text: string, numQuestions: number, chatId: string): Promise<Question[]> => {
   try {
     const response = await api.post<Question[]>('/questions/generate', { text, numQuestions,chatId  });
-    return response.data;
+    // return response.data;
 
-    // const exampleQuestion: Question = {
-    //   id: '123456', // Este campo es opcional
-    //   text: 'Pregunta sobre la visita de Daniel y sus amigos',
-    //   question: '¿Con quién visitó Daniel?',
-    //   options: [
-    //     'A) Solamente con él',
-    //     'B) Con su familia',
-    //     'C) Con sus amigos',
-    //     'D) Con su jefe'
-    //   ],
-    //   correctAnswer: 'C) Con sus amigos'
-    // };
+    const exampleQuestion: Question = {
+      id: '123456', // Este campo es opcional
+      text: 'Pregunta sobre la visita de Daniel y sus amigos',
+      question: '¿Con quién visitó Daniel?',
+      options: [
+        'A) Solamente con él',
+        'B) Con su familia',
+        'C) Con sus amigos',
+        'D) Con su jefe'
+      ],
+      correctAnswer: 'C) Con sus amigos'
+    };
     
 
-    // return [exampleQuestion];
+    return [exampleQuestion];
     
   } catch (error) {
 

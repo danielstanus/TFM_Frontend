@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { ChatDB } from '../types';
@@ -31,6 +31,26 @@ const Sidebar: React.FC<SidebarProps> = ({
   onCreateChat,
   onSelectChat
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Considera como móvil si el ancho es menor a 768px
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  const handleChatSelect = (chatId: string) => {
+    onSelectChat(chatId);
+    if (isMobile) {
+      toggleSidebar();
+    }
+  };
+
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     let truncated = text.substr(0, maxLength);
@@ -84,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               chats.map((chat) => (
                 <li 
                   key={chat.id} 
-                  onClick={() => onSelectChat(chat.id)}
+                  onClick={() => handleChatSelect(chat.id)}
                   className={`py-2 px-3 rounded cursor-pointer text-left ${
                     isDarkMode 
                       ? 'hover:bg-gray-800 focus:bg-gray-800' 
@@ -101,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
       
-      <div className=  {`p-4 border-t ${ isDarkMode ? 'border-gray-700' : ' border-gray-400'}`} >
+      <div className={`p-4 border-t ${ isDarkMode ? 'border-gray-700' : ' border-gray-400'}`} >
         <button
           id="logout-button"
           onClick={onLogout}

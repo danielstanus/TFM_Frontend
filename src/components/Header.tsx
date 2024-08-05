@@ -23,10 +23,10 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, isSidebarOpen, toggleSideba
 
   return (
     <header
-      className={`${bgColor} ${textColor} py-3 px-3 fixed top-0 left-0 right-0 z-40 flex items-center font-sans transition-transform duration-300 ease-in-out`}
+      className={`${bgColor} ${textColor} py-3 px-3 fixed top-0 left-0 right-0 z-40 flex items-center justify-between font-sans transition-all duration-300 ease-in-out`}
       style={{ marginLeft: isSidebarOpen ? '256px' : '0' }} // Ajusta este valor según el ancho del sidebar
     >
-      <div className="flex-none">
+      <div className="w-8 flex items-center"> {/* Contenedor para el botón del sidebar */}
         {!isSidebarOpen && (
           <div id="toggle-sidebar-button-show">
             <ToggleSidebarButton
@@ -40,19 +40,21 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, isSidebarOpen, toggleSideba
           </div>
         )}
         {isTooltipVisible && (
-          <Tooltip anchorSelect="#toggle-sidebar-button-show"
-            place="right" content="Abrir barra lateral"
+          <Tooltip 
+            anchorSelect="#toggle-sidebar-button-show"
+            place="right" 
+            content="Abrir barra lateral"
           />
         )}
       </div>
-      <h1 className="flex-grow text-2xl font-light text-center tracking-wide">
-        Quiz AI
-      </h1>
-      {/* <div className="flex-none">
-        <div id="toggle-theme-button">
-          <ThemeToggle isDarkMode={isDarkMode} toggleTheme={() => { }} />
-        </div>
-      </div> */}
+      <div className="flex-grow flex justify-center items-center"> {/* Contenedor centrado para el título */}
+        <h1 className="text-2xl font-light tracking-wide">
+          Quiz AI
+        </h1>
+      </div>
+      <div className="w-8"> {/* Espacio equivalente al lado derecho para equilibrar */}
+        {/* Puedes agregar aquí otros elementos si es necesario */}
+      </div>
     </header>
   );
 };
