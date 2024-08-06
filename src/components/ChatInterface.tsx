@@ -36,6 +36,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
   const fetchMessages = async (chatId: string) => {
     try {
       const chatMessages = await getMessages(user.id, chatId, user.token);
+      
+      if (chatMessages.length === 0) {
+        onLogout();
+        return;
+      }
+      
       setMessages(chatMessages.flatMap(msg => {
         const messages: Message[] = [];
         if (msg.userText) {
@@ -64,6 +70,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
   const fetchChats = async () => {  
     try {
       const userChats = await getChats(user.id, user.token);
+      
+      if (userChats.length === 0) {
+        onLogout();
+        return;
+      }   
+      
       setChats(userChats);
     } catch (error) {
       console.error('Error fetching chats:', error);

@@ -52,23 +52,23 @@ export const register = async (credentials: RegisterCredentials): Promise<User> 
 export const generateQuestions = async (text: string, numQuestions: number, chatId: string): Promise<Question[]> => {
   try {
     const response = await api.post<Question[]>('/questions/generate', { text, numQuestions,chatId  });
-    // return response.data;
+    return response.data;
 
-    const exampleQuestion: Question = {
-      id: '123456', // Este campo es opcional
-      text: 'Pregunta sobre la visita de Daniel y sus amigos',
-      question: '¿Con quién visitó Daniel?',
-      options: [
-        'A) Solamente con él',
-        'B) Con su familia',
-        'C) Con sus amigos',
-        'D) Con su jefe'
-      ],
-      correctAnswer: 'C) Con sus amigos'
-    };
+    // const exampleQuestion: Question = {
+    //   id: '123456', // Este campo es opcional
+    //   text: 'Pregunta sobre la visita de Daniel y sus amigos',
+    //   question: '¿Con quién visitó Daniel?',
+    //   options: [
+    //     'A) Solamente con él',
+    //     'B) Con su familia',
+    //     'C) Con sus amigos',
+    //     'D) Con su jefe'
+    //   ],
+    //   correctAnswer: 'C) Con sus amigos'
+    // };
     
 
-    return [exampleQuestion];
+    // return [exampleQuestion];
     
   } catch (error) {
 
@@ -167,6 +167,20 @@ export const getChats = async (userId: string, token: string): Promise<ChatDB[]>
 
     // return response.data;
   } catch (error) {
+
+    const dataError: ChatDB[]  = [];
+
+    if (axios.isAxiosError(error)) {
+      // Verificar si es un error 401 con el mensaje de token no válido
+      if (error.response && error.response.status === 401) {
+        const errorMessage = error.response.data.error;
+        if (errorMessage === "El token no es válido" || errorMessage === "No se proporcionó un token, autorización denegada") {
+          console.error("Sesión cerrada por token inválido."); // Mensaje de cierre de sesión
+          return dataError; 
+        }
+      }
+    }
+
     return handleApiError(error);
   }
 };
@@ -186,7 +200,7 @@ export const saveMessage = async (message: MessageDB, token: string): Promise<vo
   }
 };
 
-// Función para obtener preguntas creadas por un usuario específico
+// Función para obtener los mensajes de un chat de un usuario específico
 export const getMessages = async (userId: string, chatId: string,  token: string): Promise<MessageDB[]> => {
   setAuthToken(token); // Configura el token en los encabezados
   try {
@@ -217,6 +231,20 @@ export const getMessages = async (userId: string, chatId: string,  token: string
     return organizedMessages;
 
   } catch (error) {
+
+    const organizedMessages: MessageDB[] = [];
+
+    if (axios.isAxiosError(error)) {
+      // Verificar si es un error 401 con el mensaje de token no válido
+      if (error.response && error.response.status === 401) {
+        const errorMessage = error.response.data.error;
+        if (errorMessage === "El token no es válido" || errorMessage === "No se proporcionó un token, autorización denegada") {
+          console.error("Sesión cerrada por token inválido."); // Mensaje de cierre de sesión
+          return organizedMessages; 
+        }
+      }
+    }
+
     return handleApiError(error);
   }
 };
