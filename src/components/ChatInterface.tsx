@@ -37,11 +37,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
     try {
       const chatMessages = await getMessages(user.id, chatId, user.token);
       
-      if (chatMessages.length === 0) {
+      if (chatMessages.length > 0 && chatMessages[0].userId === "0") {
         onLogout();
         return;
       }
       
+      if (chatMessages.length > 0) {
+
       setMessages(chatMessages.flatMap(msg => {
         const messages: Message[] = [];
         if (msg.userText) {
@@ -61,6 +63,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
         }
         return messages;
       }));
+
+      }
+
     } catch (error) {
       console.error('Error fetching messages:', error);
       toast.error('Error al obtener los mensajes. Por favor, intenta de nuevo.');
@@ -71,12 +76,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
     try {
       const userChats = await getChats(user.id, user.token);
       
-      if (userChats.length === 0) {
+      console.log('userChats', userChats);
+      console.log('userChats', userChats[0]);
+
+      if (userChats.length > 0 && userChats[0].id === "0") {
         onLogout();
         return;
       }   
       
-      setChats(userChats);
+      if (userChats.length > 0) {
+        setChats(userChats);
+      }
+     
     } catch (error) {
       console.error('Error fetching chats:', error);
       toast.error('Error al obtener los chats. Por favor, intenta de nuevo.');

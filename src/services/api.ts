@@ -168,7 +168,13 @@ export const getChats = async (userId: string, token: string): Promise<ChatDB[]>
     // return response.data;
   } catch (error) {
 
-    const dataError: ChatDB[]  = [];
+
+    const ChatDBError: ChatDB = {   
+      id: '0',
+      userText: 'Error al obtener chats',
+    };
+
+    const dataError: ChatDB[]  = [ChatDBError];
 
     if (axios.isAxiosError(error)) {
       // Verificar si es un error 401 con el mensaje de token no válido
@@ -232,7 +238,15 @@ export const getMessages = async (userId: string, chatId: string,  token: string
 
   } catch (error) {
 
-    const organizedMessages: MessageDB[] = [];
+    const organizedMessagesError: MessageDB = {   
+      chatId: '0',
+      userId: '0',
+      userText: 'Error al obtener mensajes',
+      assistantText: 'Error al obtener mensajes',
+      createdAt: new Date(),
+    };
+
+    const organizedMessages: MessageDB[] = [organizedMessagesError];
 
     if (axios.isAxiosError(error)) {
       // Verificar si es un error 401 con el mensaje de token no válido
