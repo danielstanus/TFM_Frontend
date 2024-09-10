@@ -82,56 +82,64 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onAuthSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-between bg-gray-100 px-4 py-8">
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-      <h1 className="text-5xl font-bold mb-12 text-black-600">Bienvenido a </h1>
-      <h1 className="text-6xl font-bold mb-12 text-blue-600">QuizAI</h1>
-      <div className="bg-white p-12 rounded-lg shadow-lg w-full max-w-1/2 md:max-w-2xl">
-        <h2 className="text-4xl mb-10 text-center font-bold">{isLogin ? 'Iniciar sesión' : 'Registrarse'}</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {!isLogin && (
+      
+      <div className="w-full max-w-1/2 md:max-w-2xl flex flex-col items-center">
+        <h1 className="text-5xl font-bold mb-4 text-black-600">Bienvenido a </h1>
+        <h1 className="text-6xl font-bold mb-12 text-blue-600">QuizAI</h1>
+        <div className="bg-white p-12 rounded-lg shadow-lg w-full">
+          <h2 className="text-4xl mb-10 text-center font-bold">{isLogin ? 'Iniciar sesión' : 'Registrarse'}</h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {!isLogin && (
+              <FloatingLabelInput
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                label="Nombre"
+              />
+            )}
             <FloatingLabelInput
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              label="Nombre"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              label="Email"
             />
-          )}
-          <FloatingLabelInput
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            label="Email"
-          />
-          <FloatingLabelInput
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            label="Contraseña"
-          />
-          {!isLogin && (
             <FloatingLabelInput
               type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              label="Confirmar contraseña"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Contraseña"
             />
-          )}
-          <button type="submit" className="w-full bg-blue-500 text-white p-4 rounded-lg text-xl font-semibold mt-10 hover:bg-blue-600 transition-colors">
-            {isLogin ? 'Iniciar sesión' : 'Registrarse'}
+            {!isLogin && (
+              <FloatingLabelInput
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                label="Confirmar contraseña"
+              />
+            )}
+            <button type="submit" className="w-full bg-blue-500 text-white p-4 rounded-lg text-xl font-semibold mt-10 hover:bg-blue-600 transition-colors">
+              {isLogin ? 'Iniciar sesión' : 'Registrarse'}
+            </button>
+          </form>
+          <button 
+            onClick={() => setIsLogin(!isLogin)} 
+            className="w-full mt-8 text-blue-500 hover:underline text-xl"
+          >
+            {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
           </button>
-        </form>
-        <button 
-          onClick={() => setIsLogin(!isLogin)} 
-          className="w-full mt-8 text-blue-500 hover:underline text-xl"
-        >
-          {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
-        </button>
+        </div>
       </div>
+
+      <div className="mt-8">
+        <img src="/logo.svg" alt="QuizAI Logo" className="w-12 h-12" />
+      </div>
+
     </div>
   );
 };

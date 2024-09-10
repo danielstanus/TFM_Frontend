@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Question, User, LoginCredentials, RegisterCredentials, MessageDB, ChatDB } from '../types';
 
-const API_URL = 'http://localhost:5000/api'; //para local
-// const API_URL = 'https://tfm-backend-topaz.vercel.app/api'; //para prod
+// const API_URL = 'http://localhost:5000/api'; //para local
+const API_URL = 'https://tfm-backend-topaz.vercel.app/api'; //para prod
 
 // Creamos una instancia de axios con la configuración base
 const api = axios.create({
@@ -26,7 +26,6 @@ const setAuthToken = (token: string) => {
     delete api.defaults.headers.common['x-auth-token'];
   }
 };
-
 
 // Función para iniciar sesión y obtener un token
 export const login = async (credentials: LoginCredentials): Promise<User> => {
@@ -99,8 +98,6 @@ export const generateQuestions = async (text: string, numQuestions: number, chat
   }
 };
 
-
-
 // Función para guardar preguntas en la base de datos
 export const saveQuestions = async (questions: Question[], token: string): Promise<void> => {
   setAuthToken(token); // Configura el token en los encabezados
@@ -110,8 +107,6 @@ export const saveQuestions = async (questions: Question[], token: string): Promi
     return handleApiError(error);
   }
 };
-
-
 
 // Función para obtener preguntas creadas por un usuario específico
 export const getQuestionsByUser = async (userId: string, token: string): Promise<Question[]> => {
@@ -123,7 +118,6 @@ export const getQuestionsByUser = async (userId: string, token: string): Promise
     return handleApiError(error);
   }
 };
-
 
 // Función para crear un nuevo chat
 export const createChat = async (userId: string, token: string): Promise<string> => {
@@ -188,7 +182,6 @@ export const getChats = async (userId: string, token: string): Promise<ChatDB[]>
     return handleApiError(error);
   }
 };
-
 
 // Función para guardar un mensaje en la base de datos
 export const saveMessage = async (message: MessageDB, token: string): Promise<void> => {
@@ -260,7 +253,6 @@ export const getMessages = async (userId: string, chatId: string,  token: string
     return handleApiError(error);
   }
 };
-
 
 // Exportamos todas las funciones como un objeto para mantener la consistencia
 export const apiService = {
