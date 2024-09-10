@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { Question, User, LoginCredentials, RegisterCredentials, MessageDB, ChatDB } from '../types';
 
-// const API_URL_LOCALHOST = 'http://localhost:5000/api';
-const API_URL = 'https://tfm-backend-topaz.vercel.app/api';
-
-
+const API_URL = 'http://localhost:5000/api'; //para local
+// const API_URL = 'https://tfm-backend-topaz.vercel.app/api'; //para prod
 
 // Creamos una instancia de axios con la configuración base
 const api = axios.create({

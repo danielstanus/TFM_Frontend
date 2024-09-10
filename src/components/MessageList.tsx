@@ -19,7 +19,7 @@ const MessageList: React.FC<Props> = ({ messages, isDarkMode }) => {
             className={`max-w-[70%] p-3 rounded-lg ${
               message.type === 'user'
                 ? isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-800'
-                : isDarkMode ? 'bg-gray-900 text-white'  : 'bg-gray-300 text-white'
+                : isDarkMode ? 'bg-gray-900 text-white'  : 'bg-gray-300 text-black'
             }`}
           >
             {typeof message.content === 'string' ? (

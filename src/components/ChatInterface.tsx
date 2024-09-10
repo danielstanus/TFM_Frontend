@@ -2,17 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import MessageList from './MessageList';
 import InputArea from './InputArea';
 import Sidebar from './Sidebar';
-import ToggleSidebarButton from './ToggleSidebarButton';
 import Header from './Header';
 import ThemeToggle from './ThemeToggle';
 import LoadingSpinner from './LoadingSpinner';
 import { Message, User, MessageDB, ChatDB,Question } from '../types';
-import { generateQuestions, saveQuestions, saveMessage, getMessages, createChat, getChats } from '../services/api';
+import { generateQuestions, saveMessage, getMessages, createChat, getChats } from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
-
 
 interface ChatInterfaceProps {
   user: User;
@@ -119,14 +117,16 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
       const questionsString = JSON.stringify(generatedQuestions);
       const messageDb: MessageDB = {chatId: chatId, userId: user.id, userText: content, assistantText: questionsString, createdAt: new Date() };
       
+      console.log('messageDb', messageDb);
+
       await saveMessage(messageDb, user.token);
       
       await fetchChats();
 
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Lo siento, hubo un error al generar las preguntas. Por favor, intenta de nuevo.');
-      const errorMessage: Message = { type: 'assistant', content: 'Lo siento, hubo un error al generar las preguntas.' };
+      toast.error('Lo siento, hubo un error al generar o guardar las preguntas. Por favor, intenta de nuevo.');
+      const errorMessage: Message = { type: 'assistant', content: 'Lo siento, hubo un error al generar o guardar las preguntas.' };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -239,5 +239,5 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onLogout }) => {
   );
 };
 
-
 export default ChatInterface;
+
